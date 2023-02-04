@@ -10,6 +10,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - uses: lukka/get-cmake@latest
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
