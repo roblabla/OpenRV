@@ -21,7 +21,7 @@ jobs:
     - name: Install linux dependencies
       if: ${{ matrix.os == 'ubuntu-latest' }}
       run: |
-        yum install -y sudo wget git
+        yum install -y sudo wget git ca-certificates
         sudo yum install -y centos-release-scl
         sudo yum-config-manager --enable rhel-server-rhscl-7-rpms
         sudo yum install -y devtoolset-9
