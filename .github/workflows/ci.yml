@@ -87,7 +87,7 @@ jobs:
       if: ${{ matrix.os != 'windows-latest'  }}
       run: cmake -B ${{github.workspace}}/build -G Ninja -DCMAKE_BUILD_TYPE=${{env.RV_CMAKE_BUILD_TYPE}} -DRV_DEPS_QT5_LOCATION="$Qt5_DIR"
     - name: Build
-      run: cmake --build ${{github.workspace}}/build --config ${{env.RV_CMAKE_BUILD_TYPE}} --target $TARGET
+      run: cmake --build ${{github.workspace}}/build --config ${{env.RV_CMAKE_BUILD_TYPE}} --target ${{matrix.target}}
     - uses: actions/upload-artifact@v3
       with:
         name: RV
