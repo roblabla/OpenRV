@@ -407,13 +407,14 @@ FUNCTION(rv_stage)
       COMMAND bash -c "cat ${_package_file} | grep version: | grep --only-matching -e '[0-9.]*'"
       RESULT_VARIABLE _result
       OUTPUT_VARIABLE _pkg_version
-      OUTPUT_STRIP_TRAILING_WHITESPACE COMMAND_ERROR_IS_FATAL ANY
+      ERROR_VARIABLE _pkg_error
+      OUTPUT_STRIP_TRAILING_WHITESPACE
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
     IF(_result
        AND NOT _result EQUAL 0
     )
-      MESSAGE(FATAL_ERROR "Error retrieving version field from '${_package_file}'")
+      MESSAGE(FATAL_ERROR "Error retrieving version field from '${_package_file}': ${_result}\n${_pkg_version}\n${_pkg_error}\n$ENV{PATH}")
     ELSE()
       MESSAGE(DEBUG "Found version for '${arg_TARGET}.rvpkg' package version ${_pkg_version} ...")
     ENDIF()

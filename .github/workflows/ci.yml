@@ -83,15 +83,20 @@ jobs:
       if: ${{ matrix.os == 'windows-latest'  }}
       shell: msys2 {0}
       run: |
-        BUILD_PATH=$(cygpath -u '${{github.workspace}}')/build
-        QT5_DIR=$(cygpath -u "$Qt5_Dir")/build
+        BUILD_PATH=$(cygpath -m '${{github.workspace}}')/build
+        QT5_DIR=$(cygpath -m "$Qt5_Dir")/build
         echo "$BUILD_PATH" "$QT5_DIR"
+        which cmake
         cmake -B "$BUILD_PATH" -G Ninja -DCMAKE_BUILD_TYPE=${{env.RV_CMAKE_BUILD_TYPE}} -DRV_DEPS_QT5_LOCATION="$QT5_DIR" -DRV_DEPS_WIN_PERL_ROOT="/c/Strawberry/perl/bin"
     - name: Configure CMake
       if: ${{ matrix.os != 'windows-latest'  }}
       run: cmake -B ${{github.workspace}}/build -G Ninja -DCMAKE_BUILD_TYPE=${{env.RV_CMAKE_BUILD_TYPE}} -DRV_DEPS_QT5_LOCATION="$Qt5_DIR"
     - name: Build
-      run: cmake --build ${{github.workspace}}/build --config ${{env.RV_CMAKE_BUILD_TYPE}} --target ${{matrix.target}}
+      if: ${{ matrix.os == 'windows-latest'  }}
+      shell: msys2 {0}
+      run: |
+        BUILD_PATH=$(cygpath -u '${{github.workspace}}')/build
+        cmake --build "$BUILD_PATH" --config ${{env.RV_CMAKE_BUILD_TYPE}} --target ${{matrix.target}}
     - name: Debug
       if: ${{ failure() }}
       uses: mxschmitt/action-tmate@v3
