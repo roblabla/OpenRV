@@ -15,6 +15,7 @@ jobs:
       uses: jurplel/install-qt-action@v3
       with:
         version: '5.15.2'
+        modules: 'qtwebengine'
     - name: Configure CMake
       run: cmake -B ${{github.workspace}}/build -G Ninja -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DRV_DEPS_QT5_LOCATION="$Qt5_DIR"
     - name: Build
