@@ -41,7 +41,9 @@ jobs:
       #    sudo make install
     - name: Install linux dependencies
       if: ${{ matrix.os == 'ubuntu-latest' }}
-      run: sudo apt-get install -y ocl-icd-opencl-dev libgl1-mesa-dev libglu1-mesa-dev meson nasm libavahi-compat-libdnssd-dev
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ocl-icd-opencl-dev libgl1-mesa-dev libglu1-mesa-dev meson nasm libavahi-compat-libdnssd-dev
     - name: Install macOS dependencies
       if: ${{ matrix.os == 'macos-latest' }}
       run: brew install cmake ninja readline sqlite3 xz zlib tcl-tk autoconf automake libtool python yasm clang-format black meson nasm pkg-config glew
@@ -86,3 +88,7 @@ jobs:
       run: cmake -B ${{github.workspace}}/build -G Ninja -DCMAKE_BUILD_TYPE=${{env.RV_CMAKE_BUILD_TYPE}} -DRV_DEPS_QT5_LOCATION="$Qt5_DIR"
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.RV_CMAKE_BUILD_TYPE}} --target $TARGET
+    - uses: actions/upload-artifact@v3
+      with:
+        name: RV
+        path: ${{github.workspace}}/build/stage/app/
