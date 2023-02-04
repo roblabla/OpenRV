@@ -2,13 +2,20 @@ name: OpenRV Build
 on: [push, pull_request]
 
 env:
-  BUILD_TYPE: Release
+  RV_CMAKE_BUILD_TYPE: Release
 
 jobs:
   build:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: macos-latest
+            target: RV
+          - os: windows-latest
+            target: rv
+          - os: ubuntu-latest
+            target: rv
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -61,6 +68,7 @@ jobs:
           unzip
           zip
     - uses: lukka/get-cmake@latest
+      if: ${{ matrix.os == 'ubuntu-latest' }}
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
@@ -74,9 +82,9 @@ jobs:
     - name: Configure CMake
       if: ${{ matrix.os == 'windows-latest'  }}
       shell: msys2 {0}
-      run: cmake -B ${{github.workspace}}/build -G Ninja -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DRV_DEPS_QT5_LOCATION="$Qt5_DIR" -DRV_DEPS_WIN_PERL_ROOT="/c/Strawberry/perl/bin"
+      run: cmake -B ${{github.workspace}}/build -G Ninja -DCMAKE_BUILD_TYPE=${{env.RV_CMAKE_BUILD_TYPE}} -DRV_DEPS_QT5_LOCATION="$Qt5_DIR" -DRV_DEPS_WIN_PERL_ROOT="/c/Strawberry/perl/bin"
     - name: Configure CMake
       if: ${{ matrix.os != 'windows-latest'  }}
-      run: cmake -B ${{github.workspace}}/build -G Ninja -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DRV_DEPS_QT5_LOCATION="$Qt5_DIR" -DRV_DEPS_WIN_PERL_ROOT="/c/Strawberry/perl/bin"
+      run: cmake -B ${{github.workspace}}/build -G Ninja -DCMAKE_BUILD_TYPE=${{env.RV_CMAKE_BUILD_TYPE}} -DRV_DEPS_QT5_LOCATION="$Qt5_DIR"
     - name: Build
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      run: cmake --build ${{github.workspace}}/build --config ${{env.RV_CMAKE_BUILD_TYPE}} --target $TARGET

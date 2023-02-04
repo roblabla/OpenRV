@@ -71,15 +71,9 @@ ELSEIF(RV_TARGET_WINDOWS)
   )
 ENDIF()
 
-IF(RV_TARGET_LINUX)
-  SET(_lib_dir
-      ${_install_dir}/lib64
-  )
-ELSE()
-  SET(_lib_dir
-      ${_install_dir}/lib
-  )
-ENDIF()
+SET(_lib_dir
+    ${_install_dir}/lib
+)
 
 SET(RV_DEPS_IMATH_CMAKE_DIR
     ${_lib_dir}/cmake/Imath

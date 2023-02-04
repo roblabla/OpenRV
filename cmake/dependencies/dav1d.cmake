@@ -81,7 +81,7 @@ EXTERNALPROJECT_ADD(
   INSTALL_DIR ${_install_dir}
   URL ${_download_url}
   URL_MD5 ${_download_hash}
-  CONFIGURE_COMMAND ${_configure_command} ./_build --default-library=${_default_library} --prefix=${_install_dir} -Denable_tests=false -Denable_tools=false
+  CONFIGURE_COMMAND ${_configure_command} ./_build --default-library=${_default_library} --prefix=${_install_dir} -Denable_tests=false -Denable_tools=false --libdir=lib
   BUILD_COMMAND ${_make_command} -C _build
   INSTALL_COMMAND ${_make_command} -C _build install
   COMMAND ${CMAKE_COMMAND} -E copy_directory ${_lib_dir} ${RV_STAGE_LIB_DIR}
