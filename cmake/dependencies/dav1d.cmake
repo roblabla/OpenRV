@@ -28,15 +28,9 @@ SET(_install_dir
 SET(_include_dir
     ${_install_dir}/include
 )
-IF(RV_TARGET_LINUX)
-  SET(_lib_dir
-      ${_install_dir}/lib64
-  )
-ELSE()
-  SET(_lib_dir
-      ${_install_dir}/lib
-  )
-ENDIF()
+SET(_lib_dir
+    ${_install_dir}/lib
+)
 
 SET(_david_lib_name
     ${CMAKE_STATIC_LIBRARY_PREFIX}dav1d${CMAKE_STATIC_LIBRARY_SUFFIX}
