@@ -97,6 +97,11 @@ jobs:
       run: |
         BUILD_PATH=$(cygpath -u '${{github.workspace}}')/build
         cmake --build "$BUILD_PATH" --config ${{env.RV_CMAKE_BUILD_TYPE}} --target ${{matrix.target}}
+    - name: Build
+      if: ${{ matrix.os != 'windows-latest'  }}
+      run: |
+        BUILD_PATH=${{github.workspace}}/build
+        cmake --build "$BUILD_PATH" --config ${{env.RV_CMAKE_BUILD_TYPE}} --target ${{matrix.target}}
     - name: Debug
       if: ${{ failure() }}
       uses: mxschmitt/action-tmate@v3
