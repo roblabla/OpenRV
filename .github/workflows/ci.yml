@@ -43,7 +43,7 @@ jobs:
       if: ${{ matrix.os == 'ubuntu-latest' }}
       run: |
         sudo apt-get update
-        sudo apt-get install -y ocl-icd-opencl-dev libgl1-mesa-dev libglu1-mesa-dev meson nasm libavahi-compat-libdnssd-dev
+        sudo apt-get install -y ocl-icd-opencl-dev libgl1-mesa-dev libglu1-mesa-dev meson nasm libavahi-compat-libdnssd-dev tk tk-dev
     - name: Install macOS dependencies
       if: ${{ matrix.os == 'macos-latest' }}
       run: brew install cmake ninja readline sqlite3 xz zlib tcl-tk autoconf automake libtool python yasm clang-format black meson nasm pkg-config glew
