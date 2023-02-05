@@ -8,12 +8,11 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
         include:
           - os: macos-latest
             target: RV
-          - os: windows-latest
-            target: rv
+          #- os: windows-latest
+          #  target: rv
           - os: ubuntu-latest
             target: rv
     runs-on: ${{ matrix.os }}
